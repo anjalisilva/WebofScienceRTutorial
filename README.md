@@ -355,7 +355,7 @@ If you would like to ‘Save workspace image?’, press ‘y’.
 
 ## Maintainer
 
--   Anjali Silva (<a.silva@utorontoca>).
+-   Anjali Silva (<a.silva@utorontoca>). Last updated 8 April 2022.
 
 ## Contributions
 

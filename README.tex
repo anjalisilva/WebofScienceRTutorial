@@ -1,0 +1,560 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Getting Started with the Web of Science PostgreSQL Database for University of Toronto Using R Language},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Getting Started with the Web of Science PostgreSQL Database for
+University of Toronto Using R Language}
+\author{}
+\date{\vspace{-2.5em}30 March 2022}
+
+\begin{document}
+\maketitle
+
+\hypertarget{getting-started-with-the-web-of-science-postgresql-database-for-university-of-toronto-using-r-language}{%
+\section{Getting Started with the Web of Science PostgreSQL Database for
+University of Toronto Using R
+Language}\label{getting-started-with-the-web-of-science-postgresql-database-for-university-of-toronto-using-r-language}}
+
+Accessing the Database via High Performance Computing Environment
+Available on SciNet
+
+\href{https://github.com/anjalisilva/WebofScienceRTutorial/issues}{\includegraphics{https://img.shields.io/github/issues/anjalisilva/WebofScienceRTutorial}}
+\href{./LICENSE}{\includegraphics{https://img.shields.io/badge/license-MIT-green}}
+\includegraphics{https://img.shields.io/github/languages/count/anjalisilva/WebofScienceRTutorial}
+\includegraphics{https://img.shields.io/github/commit-activity/y/anjalisilva/WebofScienceRTutorial}
+
+\hypertarget{introduction}{%
+\subsection{Introduction}\label{introduction}}
+
+This tutorial will help querying the Web of Science (WoS) PostgreSQL
+database for University of Toronto users. The tutorial closely follows
+SQL and Python tutorials outlined by
+\href{https://mdl.library.utoronto.ca/technology/tutorials/getting-started-web-science-postgresql-database-MAC}{University
+of Toronto Map and Data Library}. Users will need access to the high
+performance computing environment on SciNet for querying the WoS
+database. Instructions for accessing SciNet are outlined by
+\href{https://mdl.library.utoronto.ca/technology/tutorials/how-access-web-science-postgresql-database}{University
+of Toronto Library}.
+
+\hypertarget{login-to-scinet-install-modules-and-open-r}{%
+\paragraph{Login to SciNet, install modules and open
+R}\label{login-to-scinet-install-modules-and-open-r}}
+
+To install needed modules and open R there are two options as shown
+below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd} \VariableTok{$HOME} 
+\ExtensionTok{module}\NormalTok{ load gcc}
+\ExtensionTok{module}\NormalTok{ load postgresql}
+\ExtensionTok{module}\NormalTok{ load r/4.1.2}
+\ExtensionTok{R}
+
+\CommentTok{\# OR}
+
+\BuiltInTok{cd} \VariableTok{$HOME} 
+\ExtensionTok{module}\NormalTok{ load gcc}
+\ExtensionTok{module}\NormalTok{ load r/4.1.2}
+\ExtensionTok{singularity}\NormalTok{ pull docker://rocker/tidyverse:4.1.3}
+\ExtensionTok{singularity}\NormalTok{ exec tidyverse\_4.1.3.sif R}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{download-r-packages}{%
+\paragraph{Download R packages}\label{download-r-packages}}
+
+Now that R is opened, download the needed R packages. Once downloaded,
+attach each package to current session using command library.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{install.packages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"DBI"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{, }\StringTok{"dbplyr"}\NormalTok{,}
+                   \StringTok{"RSQLite"}\NormalTok{, }\StringTok{"RPostgres"}\NormalTok{, }
+                   \StringTok{"magrittr"}\NormalTok{, }\StringTok{"stringr"}\NormalTok{))}
+\FunctionTok{library}\NormalTok{(}\StringTok{"DBI"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{"dbplyr"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{"RSQLite"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{"RPostgres"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{"magrittr"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(}\StringTok{"stringr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{connecting-to-database-on-r}{%
+\paragraph{Connecting to database on
+R}\label{connecting-to-database-on-r}}
+
+We will connect to WoS database using R package \texttt{DBI} and using
+function dbConnect(). Anything followed by a hashtag is a comment in R.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{db }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}wos\textquotesingle{}}  \CommentTok{\# provide the name of database}
+\NormalTok{hostdb }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}idb1\textquotesingle{}} \CommentTok{\# host name}
+\NormalTok{dbWoS }\OtherTok{\textless{}{-}}\NormalTok{ DBI}\SpecialCharTok{::}\FunctionTok{dbConnect}\NormalTok{(RPostgres}\SpecialCharTok{::}\FunctionTok{Postgres}\NormalTok{(), }
+                 \AttributeTok{dbname =}\NormalTok{ db, }
+                 \AttributeTok{host =}\NormalTok{ hostdb)  }
+\CommentTok{\# Let’s take a closer look at the database}
+\NormalTok{dbplyr}\SpecialCharTok{::}\FunctionTok{src\_dbi}\NormalTok{(dbWoS)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{getting-help-with-r}{%
+\paragraph{Getting help with R}\label{getting-help-with-r}}
+
+If you are unclear of any function used, you may type \texttt{?}
+followed by function name to pull up the help documentation. Another
+option is to use help() function. Both options are shown below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{?DBI}\SpecialCharTok{::}\NormalTok{dbConnect}
+
+\CommentTok{\# OR}
+
+\FunctionTok{help}\NormalTok{(dbConnect, }\AttributeTok{package =} \StringTok{"DBI"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a.-search-by-title}{%
+\paragraph{a. Search by Title}\label{a.-search-by-title}}
+
+Let's find publications that have the word ``visualization''. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{) }\CommentTok{\# search a word}
+\NormalTok{pubSearchA1 }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\StringTok{"publication"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(title) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(searchWords, title))}
+\end{Highlighting}
+\end{Shaded}
+
+Let's find publications that have the words ``visualization'', and
+``library'' OR ``libraries'' OR ``librarian'' in the title. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{) }\CommentTok{\# search multiple words}
+\NormalTok{pubSearchA2 }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\StringTok{"publication"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(title) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{b.-search-by-title-words-and-year}{%
+\paragraph{b. Search by Title words and
+Year}\label{b.-search-by-title-words-and-year}}
+
+We can also limit searches based on multiple criteria for different
+fields. Let's run the same search as above, but limit it to only
+publications published later than 2015. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{)}
+\NormalTok{pubSearchB }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\StringTok{"publication"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(title, year) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2015"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{c.-search-by-title-words-and-year-return-specific-fields-only}{%
+\paragraph{c.~Search by Title words and Year, return specific fields
+only}\label{c.-search-by-title-words-and-year-return-specific-fields-only}}
+
+We have been selecting few fields in the publication table, but we can
+instead select several fields (type, year, title, ref\_count) from the
+publication table. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{)}
+\NormalTok{pubSearchC1 }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\StringTok{"publication"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(type, year, title, ref\_count) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2015"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We have been selecting few fields in the publication table, but we can
+instead select all fields in the publication table. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{)}
+\NormalTok{pubSearchC2 }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\StringTok{"publication"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(edition, source\_id, type, year, month, day, vol,}
+\NormalTok{                issue, page\_begin, page\_end, page\_count, title, ref\_count) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2015"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{d.-search-by-title-words-and-year-but-return-author-information-as-well}{%
+\paragraph{d.~Search by Title words and Year, but return Author
+information as
+well}\label{d.-search-by-title-words-and-year-but-return-author-information-as-well}}
+
+So far these queries have focused on returning data from one table, but
+you can join tables to get information from multiple tables, such as
+publication and author. Let's run the same search from above, but also
+get author names included in the results. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{)}
+\NormalTok{pubSearchD }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{, }\StringTok{"author"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(year, title, full\_name) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2015"}\NormalTok{)}
+
+\CommentTok{\# Note: This will result in publication titles being duplicated if there are multiple authors to list.}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{e.-search-by-title-words-and-year-but-return-author-and-source-information-as-well}{%
+\paragraph{e. Search by Title words and Year, but return Author and
+Source information as
+well}\label{e.-search-by-title-words-and-year-but-return-author-and-source-information-as-well}}
+
+You can join one table to more than one other table to pull in more
+information into your results. Let's run the query from example d, but
+add the journal information as well. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{)}
+\NormalTok{pubSearchE }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{, }\StringTok{"author"}\NormalTok{, }\StringTok{"source"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(year, title, full\_name, name) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2015"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{f.-search-by-title-words-year-and-author-name}{%
+\paragraph{f.~Search by Title words, Year and Author
+name}\label{f.-search-by-title-words-year-and-author-name}}
+
+You can also limit searches based on information in these multiple
+tables. Let's run the same search from above, but also limit to only
+authors with the last name ``Reid''. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{)}
+\NormalTok{pubSearchF }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{, }\StringTok{"author"}\NormalTok{, }\StringTok{"source"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(year, title, full\_name, name) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"Reid"}\NormalTok{, full\_name)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2015"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{g.-search-by-year-and-source-name}{%
+\paragraph{g. Search by Year and Source
+name}\label{g.-search-by-year-and-source-name}}
+
+This can continue to get more complicated. You might want to join a
+table in order to query a field, but aren't interested in including the
+data from that table in the final results. Note you could construct a
+query similar to example f above, the only difference is that the
+columns from the source table are not included here, but are included in
+example f.~For this example, let's query the database to find all recent
+publications with author information for publications from the journal
+called ``Scientometrics''. This query finds all the source IDs where the
+source name is ``Scientometrics'' then filters publications that have
+that source ID, plus the other criteria outlined below. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pubSearchG }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{, }\StringTok{"author"}\NormalTok{, }\StringTok{"source"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(year, title, full\_name, name) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(name }\SpecialCharTok{==} \FunctionTok{toupper}\NormalTok{(}\StringTok{"Scientometrics"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2019"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{name)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{h.-search-by-title-words-year-and-author-institution}{%
+\paragraph{h. Search by Title words, Year and Author
+institution}\label{h.-search-by-title-words-year-and-author-institution}}
+
+Some tables in the database are bridging tables, where there are
+many-to-one relationships, such as an author having many addresses.
+Let's query the database to find all publications with the word
+``visualization'' in the title, published in the last couple of years
+from authors from the University of Toronto. First you find all the
+address IDs that are for the University of Toronto, then you find all
+the author IDs that have those address IDs, and then filter by those
+authors, plus the other criteria outlined below. (Note: Just to simplify
+the query and make it run faster for this example, we're just looking
+for addresses with ``Univ Toronto''. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{)}
+\NormalTok{pubSearchH }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }
+  \FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{, }\StringTok{"author"}\NormalTok{, }\StringTok{"address"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(year, title, full\_name, address) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(searchWords, title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2019"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"Univ Toronto"}\NormalTok{, address))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{i.-search-by-keywords-and-year}{%
+\paragraph{i. Search by Keywords and
+Year}\label{i.-search-by-keywords-and-year}}
+
+Here we are using another bridging table, this time to find publications
+based on a particular descriptor, such as a subject or keyword. This
+example is similar to the one above except searching by Keywords Plus
+(standardized keywords in the Web of Science dataset) instead of author
+affiliation. Let's query the database to find all publications from 2020
+that have a Keywords Plus field roughly equal to ``Artificial
+Intelligence''. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pubSearchI }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{, }\StringTok{"descriptor"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(year, title, text) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{==} \StringTok{"2020"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(text }\SpecialCharTok{==} \StringTok{"Artificial Intelligence"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{j.-search-by-title-words-and-year-returning-only-publication-title-and-abstract}{%
+\paragraph{j. Search by Title words and Year, returning only publication
+title and
+abstract}\label{j.-search-by-title-words-and-year-returning-only-publication-title-and-abstract}}
+
+One useful field for text analysis that we haven't seen in our examples
+yet would be to obtain abstracts for the items found. Let's run a search
+with similar search parameters to example b, but return titles and
+abstracts only. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{)}
+\NormalTok{pubSearchJ }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"abstract"}\NormalTok{, }\StringTok{"publication"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(title, year, text) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2019"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{k.-search-for-articles-that-cite-a-subset-of-articles}{%
+\paragraph{k. Search for articles that cite a subset of
+articles}\label{k.-search-for-articles-that-cite-a-subset-of-articles}}
+
+The Web of Science dataset is very valuable to analyze citation
+networks. For example, we can use another bridging table called
+references to find all publication IDs that cited or are cited by other
+publication IDs. Let's query the database to find all the articles that
+cite a (very small) subset of items. The subset is similar to example b
+above, find all articles that have the words ``visualization'', and
+``library'' OR ``libraries'' OR ``librarian'' in the title, but this
+time only published after 2019. These types of queries are intensive and
+can take a while to run, so this is a very simple and small example to
+get you started. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{)}
+\CommentTok{\# First create the subset}
+\NormalTok{pubSuset }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(title, year, id) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2019"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{pull}\NormalTok{(id) }
+\CommentTok{\# Search the subset publication id in citing\_id}
+\NormalTok{pubSearchK }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{, }\StringTok{"reference"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(title, year, citing\_id) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(.data[[}\StringTok{"citing\_id"}\NormalTok{]] }\SpecialCharTok{\%in\%}\NormalTok{ pubSuset)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{l.-search-for-articles-that-are-cited-by-a-subset-of-articles}{%
+\paragraph{l. Search for articles that are cited by a subset of
+articles}\label{l.-search-for-articles-that-are-cited-by-a-subset-of-articles}}
+
+We can also query this the opposite way to find articles cited by a
+subset of articles. Let's query the database to find all the articles
+that are cited by a (very small) subset of items. The subset is the same
+as in example k, and the modifications to the query in example k are
+minimal. Type
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{searchWords }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"visualization"}\NormalTok{, }\StringTok{"library"}\NormalTok{, }\StringTok{"libraries"}\NormalTok{, }\StringTok{"librarian"}\NormalTok{)}
+\CommentTok{\# First create the subset}
+\NormalTok{pubSuset }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(title, year, id) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(stringr}\SpecialCharTok{::}\FunctionTok{str\_flatten}\NormalTok{(searchWords, }\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{), title)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \StringTok{"2019"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{pull}\NormalTok{(id) }
+\CommentTok{\# Search the subset publication id in cited\_ids}
+\NormalTok{pubSearchL }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{tbl}\NormalTok{(dbWoS, }\FunctionTok{c}\NormalTok{(}\StringTok{"publication"}\NormalTok{, }\StringTok{"reference"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(title, year, cited\_id) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(.data[[}\StringTok{"cited\_id"}\NormalTok{]] }\SpecialCharTok{\%in\%}\NormalTok{ pubSuset)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{to-save-results-and-quit-r}{%
+\paragraph{To save results and quit
+R}\label{to-save-results-and-quit-r}}
+
+These files will be saved to \$HOME
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# To save a specific object, pubSearchJ, to a file rds}
+\FunctionTok{saveRDS}\NormalTok{(pubSearchJ, }\AttributeTok{file =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"pubSearchJDate"}\NormalTok{,}\FunctionTok{Sys.Date}\NormalTok{(),}\StringTok{".rds"}\NormalTok{))}
+
+\CommentTok{\# To save a specific object, pubSearchJ, to a file csv}
+\FunctionTok{save.csv}\NormalTok{(pubSearchJ, }\AttributeTok{file =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"pubSearchJDate"}\NormalTok{,}\FunctionTok{Sys.Date}\NormalTok{(),}\StringTok{".csv"}\NormalTok{))}
+
+\CommentTok{\# To save the entire workspace image}
+\FunctionTok{save.image}\NormalTok{(}\AttributeTok{file =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"WoSQueryDate"}\NormalTok{,}\FunctionTok{Sys.Date}\NormalTok{(),}\StringTok{".RData"}\NormalTok{))}
+
+\FunctionTok{q}\NormalTok{() }\CommentTok{\# Enter q() at prompt to quit R}
+
+\CommentTok{\# [}\RegionMarkerTok{END}\CommentTok{] }
+\end{Highlighting}
+\end{Shaded}
+
+If you would like to `Save workspace image?', press `y'.
+
+\hypertarget{maintainer}{%
+\subsection{Maintainer}\label{maintainer}}
+
+\begin{itemize}
+\tightlist
+\item
+  Anjali Silva
+  (\href{mailto:a.silva@utorontoca}{\nolinkurl{a.silva@utorontoca}}).
+\end{itemize}
+
+\hypertarget{contributions}{%
+\subsection{Contributions}\label{contributions}}
+
+This tutorial welcomes issues, enhancement requests, and other
+contributions. To submit an issue, use the
+\href{https://github.com/anjalisilva/WebofScienceRTutorial/issues}{GitHub
+issues}.
+
+\hypertarget{acknowledgments}{%
+\subsection{Acknowledgments}\label{acknowledgments}}
+
+\begin{itemize}
+\tightlist
+\item
+  SciNet HPC Consortium, University of Toronto, ON, Canada for all the
+  computational support.
+\end{itemize}
+
+\end{document}
