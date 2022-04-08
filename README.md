@@ -427,4 +427,7 @@ issues](https://github.com/anjalisilva/WebofScienceRTutorial/issues).
 ## Acknowledgments
 
 SciNet HPC Consortium, University of Toronto, ON, Canada for all the
-SciNet setup support.
+SciNet setup support. This tutorial closely follows SQL and Python
+tutorials outlined by [University of Toronto Map and Data
+Library](https://mdl.library.utoronto.ca/technology/tutorials/getting-started-web-science-postgresql-database-MAC),
+University of Toronto, ON, Canada.

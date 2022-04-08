@@ -349,4 +349,5 @@ This tutorial welcomes issues, enhancement requests, and other contributions. To
 
 ## Acknowledgments
 
-SciNet HPC Consortium, University of Toronto, ON, Canada for all the SciNet setup support. 
+SciNet HPC Consortium, University of Toronto, ON, Canada for all the SciNet setup support. This tutorial closely follows SQL and Python tutorials outlined by [University of Toronto Map and Data Library](https://mdl.library.utoronto.ca/technology/tutorials/getting-started-web-science-postgresql-database-MAC), University of Toronto, ON, Canada. 
+
