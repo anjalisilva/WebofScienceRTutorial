@@ -11,22 +11,24 @@ Available on SciNet
 <!-- [![CodeFactor](https://www.codefactor.io/repository/github/anjalisilva/mplnclust/badge)](https://www.codefactor.io/repository/github/anjalisilva/mplnclust)-->
 
 [![GitHub
-issues](https://img.shields.io/github/issues/anjalisilva/MPLNClust)](https://github.com/anjalisilva/MPLNClust/issues)
+issues](https://img.shields.io/github/issues/anjalisilva/WebofScienceRTutorial)](https://github.com/anjalisilva/WebofScienceRTutorial/issues)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 ![GitHub language
-count](https://img.shields.io/github/languages/count/anjalisilva/MPLNClust)
+count](https://img.shields.io/github/languages/count/anjalisilva/WebofScienceRTutorial)
 ![GitHub commit activity
-(branch)](https://img.shields.io/github/commit-activity/y/anjalisilva/MPLNClust/master)
+(branch)](https://img.shields.io/github/commit-activity/y/anjalisilva/WebofScienceRTutorial)
 
 <!-- https://shields.io/category/license -->
 <!-- badges: end -->
 
 ## Introduction
 
-This tutorial will help you get up and running querying the Web of
-Science (WoS) PostgreSQL database on a Mac computer. You will need
-access to the high performance computing environment on SciNet for
-querying the Web of Science database. Instructions for accessing SciNet
+This tutorial will help querying the Web of Science (WoS) PostgreSQL
+database for University of Toronto users. The tutorial closely follows
+SQL and Python tutorials outlined by [University of Toronto Map and Data
+Library](https://mdl.library.utoronto.ca/technology/tutorials/getting-started-web-science-postgresql-database-MAC).
+Users will need access to the high performance computing environment on
+SciNet for querying the WoS database. Instructions for accessing SciNet
 are outlined by [University of Toronto
 Library](https://mdl.library.utoronto.ca/technology/tutorials/how-access-web-science-postgresql-database).
 
@@ -100,10 +102,10 @@ help(dbConnect, package = "DBI")
 
 #### a. Search by Title
 
-Let’s find publications that have the words “visualization”. Type
+Let’s find publications that have the word “visualization”. Type
 
 ``` r
-searchWords <- c("visualization")
+searchWords <- c("visualization") # search a word
 pubSearchA1 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::select(title) %>%
   dplyr::filter(grepl(searchWords, title))
@@ -113,7 +115,7 @@ Let’s find publications that have the words “visualization”, and
 “library” OR “libraries” OR “librarian” in the title. Type
 
 ``` r
-searchWords <- c("visualization", "library", "libraries", "librarian")
+searchWords <- c("visualization", "library", "libraries", "librarian") # search multiple words
 pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::select(title) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title))
@@ -359,7 +361,7 @@ If you would like to ‘Save workspace image?’, press ‘y’.
 
 This tutorial welcomes issues, enhancement requests, and other
 contributions. To submit an issue, use the [GitHub
-issues](https://github.com/anjalisilva/MPLNClust/issues).
+issues](https://github.com/anjalisilva/WebofScienceRTutorial/issues).
 
 ## Acknowledgments
 
