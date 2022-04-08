@@ -402,6 +402,7 @@ save.csv(pubSearchJ, file = paste0("pubSearchJDate", Sys.Date(), ".csv"))
 save.image(file = paste0("WoSQueryDate", Sys.Date(), ".RData"))
 
 q() # Enter q() at prompt to quit R
+# If you would like to 'Save workspace image?', press 'y'.
 
 # If a search is taking too long, you may save the search into an
 # R script of its own, save it with a name (e.g., 
@@ -412,8 +413,6 @@ Rscript exampleSearchERScript.R
 
 # [END] 
 ```
-
-If you would like to ‘Save workspace image?’, press ‘y’.
 
 ## Maintainer
 
