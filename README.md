@@ -338,13 +338,13 @@ These files will be saved to $HOME
 
 ``` r
 # To save a specific object, pubSearchJ, to a file rds
-saveRDS(pubSearchJ, file = paste0("pubSearchJDate",Sys.Date(),".rds"))
+saveRDS(pubSearchJ, file = paste0("pubSearchJDate", Sys.Date(), ".rds"))
 
 # To save a specific object, pubSearchJ, to a file csv
-save.csv(pubSearchJ, file = paste0("pubSearchJDate",Sys.Date(),".csv"))
+save.csv(pubSearchJ, file = paste0("pubSearchJDate", Sys.Date(), ".csv"))
 
 # To save the entire workspace image
-save.image(file = paste0("WoSQueryDate",Sys.Date(),".RData"))
+save.image(file = paste0("WoSQueryDate", Sys.Date(), ".RData"))
 
 q() # Enter q() at prompt to quit R
 
@@ -355,7 +355,7 @@ If you would like to ‘Save workspace image?’, press ‘y’.
 
 ## Maintainer
 
--   Anjali Silva (<a.silva@utorontoca>). Last updated 8 April 2022.
+Anjali Silva (<a.silva@utorontoca>). Last updated 8 April 2022.
 
 ## Contributions
 
@@ -365,5 +365,5 @@ issues](https://github.com/anjalisilva/WebofScienceRTutorial/issues).
 
 ## Acknowledgments
 
--   SciNet HPC Consortium, University of Toronto, ON, Canada for all the
-    computational support.
+SciNet HPC Consortium, University of Toronto, ON, Canada for all the
+SciNet setup support.
