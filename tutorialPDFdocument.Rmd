@@ -323,6 +323,13 @@ save.image(file = paste0("WoSQueryDate", Sys.Date(), ".RData"))
 
 q() # Enter q() at prompt to quit R
 
+# If a search is taking too long, you may save the search into an
+# R script of its own, save it with a name (e.g., 
+# exampleSearchERScript.R) and run it from $HOME, using command 
+# Rscript exampleSearchERScript.R. A example of such a script for
+# search E is provided in this repository, called exampleSearchERScript.R.
+Rscript exampleSearchERScript.R
+
 # [END] 
 ```
 If you would like to 'Save workspace image?', press 'y'.
