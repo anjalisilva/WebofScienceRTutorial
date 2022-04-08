@@ -55,6 +55,18 @@ dbplyr::src_dbi(dbWoS)
 # reference, reference_context, reference_patent, reference_unindexed, source
 
 
+#### Getting help with R ####
+# If you are unclear of any function used, you may type `?` followed by
+# function name to pull up the help documentation. Another option is to
+# use help() function. Both options are shown below. On terminal, press
+# 'q' to quit help documentation. 
+
+?DBI::dbConnect
+
+# OR
+
+help(dbConnect, package = "DBI")
+
 #### Searches: ####
 # a.1. Search by Title
 # Let’s find publications that have the words “visualization”. Type
