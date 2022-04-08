@@ -92,7 +92,8 @@ dbplyr::src_dbi(dbWoS)
 
 If you are unclear of any function used, you may type `?` followed by
 function name to pull up the help documentation. Another option is to
-use help() function. Both options are shown below.
+use help() function. Both options are shown below. On terminal, press
+‘q’ to quit help documentation.
 
 ``` r
 ?DBI::dbConnect
