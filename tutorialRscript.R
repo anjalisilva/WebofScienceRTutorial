@@ -68,15 +68,31 @@ dbplyr::src_dbi(dbWoS)
 help(dbConnect, package = "DBI")
 
 #### Searches: ####
-# a.1. Search by Title
+# a. Search by Title
 # Let’s find publications that have the words “visualization”. Type
 
-searchWords <- c("visualization")
-pubSearchA1 <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::select(title) %>%
-  dplyr::filter(grepl(searchWords, title))
+searchWords <- c("visualization")  # search word
+pubSearchA1 <- dplyr::tbl(dbWoS, "publication") %>% # access publication
+  dplyr::select(title) %>% # from publication select title
+  dplyr::filter(grepl(searchWords, title)) %>% # filter title for search word
+  dplyr::collect() # retrieves data into a local tibble
 
-# a.2. Let’s find publications that have the words “visualization”, and 
+# To see the dimensions of the results
+dim(pubSearchA1) 
+# 22395 rows x 1 column as of 8 April 2022
+# 22395 publications contain search word visualization
+
+# To access first publication retrieved 
+pubSearchA1[1, ] 
+
+# To see first few publication 
+head(pubSearchA1)
+
+# To see first last few publication 
+tail(pubSearchA1)
+
+
+# Let’s find publications that have the words “visualization”, and 
 # “library” OR “libraries” OR “librarian” in the title. Type
 
 searchWords <- c("visualization", "library", "libraries", "librarian")
@@ -85,7 +101,7 @@ pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title))
 
 
-# b.Search by Title words and Year
+# b. Search by Title words and Year
 # We can also limit searches based on multiple criteria for different fields. 
 # Let’s run the same search as above, but limit it to only publications 
 # published later than 2015. Type
@@ -97,7 +113,7 @@ pubSearchB <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::filter(year > "2015")
 
 
-# c.1. Search by Title words and Year, return specific fields:
+# c. Search by Title words and Year, return specific fields:
 # We have been selecting few fields in the publication table, but we can instead
 # select several fields (type, year, title, ref_count) from the publication 
 # table. Type
@@ -108,8 +124,6 @@ pubSearchC1 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
   dplyr::filter(year > "2015")
 
-
-# c.2.
 # We have been selecting few fields in the publication table, but we can instead
 # select all fields in the publication table. Type
 

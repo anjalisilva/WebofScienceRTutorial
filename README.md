@@ -108,10 +108,25 @@ help(dbConnect, package = "DBI")
 Let’s find publications that have the word “visualization”. Type
 
 ``` r
-searchWords <- c("visualization") # search a word
-pubSearchA1 <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::select(title) %>%
-  dplyr::filter(grepl(searchWords, title))
+searchWords <- c("visualization")  # search word
+pubSearchA1 <- dplyr::tbl(dbWoS, "publication") %>% # access publication
+  dplyr::select(title) %>% # from publication select title
+  dplyr::filter(grepl(searchWords, title)) %>% # filter title for search word
+  dplyr::collect() # retrieves data into a local tibble
+
+# To see the dimensions of the results
+dim(pubSearchA1) 
+# 22395 rows x 1 column as of 8 April 2022
+# 22395 publications contain search word visualization
+
+# To access first publication retrieved 
+pubSearchA1[1, ] 
+
+# To see first few publication 
+head(pubSearchA1)
+
+# To see first last few publication 
+tail(pubSearchA1)
 ```
 
 Let’s find publications that have the words “visualization”, and
