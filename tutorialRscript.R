@@ -21,19 +21,15 @@
 # singularity exec tidyverse_4.1.3.sif R
 
 #### Download R packages ####
-install.packages("DBI")
-library(DBI)
-install.packages("dplyr")
-library(dplyr)
-install.packages("dbplyr")
-library(dbplyr)
-install.packages("RSQLite")
-library(RSQLite)
-install.packages("RPostgres")
+install.packages(c("DBI", "dplyr", "dbplyr",
+                   "RSQLite", "RPostgres", 
+                   "magrittr", "stringr"))
+library("DBI")
+library("dplyr")
+library("dbplyr")
+library("RSQLite")
 library("RPostgres")
-install.packages("magrittr")
 library("magrittr")
-install.packages("stringr")
 library("stringr")
 
 #### Get working directory ####
@@ -191,6 +187,7 @@ pubSearchE <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::filter(year > "2015") %>%
   dplyr::collect() # retrieves data into a local tibble
 
+
 # f. Search by Title words, Year and Author name 
 # You can also limit searches based on information in these multiple 
 # tables. Let’s run the same search from above, but also limit to only 
@@ -325,16 +322,18 @@ pubSearchL <- dplyr::tbl(dbWoS, c("publication", "reference")) %>%
 # These files will be saved to $HOME
 
 # To save a specific object, pubSearchJ, to a file rds
-saveRDS(pubSearchJ, file = paste0("pubSearchJDate",Sys.Date(),".rds"))
+saveRDS(pubSearchJ, file = paste0("pubSearchJDate", Sys.Date(), ".rds"))
 
 # To save a specific object, pubSearchJ, to a file csv
-save.csv(pubSearchJ, file = paste0("pubSearchJDate",Sys.Date(),".csv"))
+save.csv(pubSearchJ, file = paste0("pubSearchJDate", Sys.Date(),".csv"))
 
 # To save the entire workspace image
-save.image(file = paste0("WoSQueryDate",Sys.Date(),".RData"))
+save.image(file = paste0("WoSQueryDate", Sys.Date(), ".RData"))
 
 # Enter 'q()' at prompt to quit R. 
 # If you would like to 'Save workspace image?', press 'y'.
+
+
 
 
 # [END]
