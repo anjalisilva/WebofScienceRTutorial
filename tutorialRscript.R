@@ -2,9 +2,9 @@
 # Updated: Several Times in March, 8 April, 2022
 # Author: Anjali Silva (a.silva@utoronto.ca)
 # Purpose: Getting Started with the Web of Science PostgreSQL Database
+#          Using R 
 
 #### Tutorial Begins for Users ####
-
 #### First login to SciNet and do this ####
 # cd $HOME 
 # module load gcc
@@ -41,12 +41,12 @@ getwd()
 
 
 #### Connecting to databases ####
-db <- 'wos'  #provide the name of your db
-hostdb <- 'idb1' 
+db <- 'wos'  # provide the name of data base
+hostdb <- 'idb1' # host name
 dbWoS <- DBI::dbConnect(RPostgres::Postgres(), 
                  dbname = db, 
                  host = hostdb)  
-# Let’s take a closer look at the mammals database we just connected to
+# Let’s take a closer look at the mammals database 
 dbplyr::src_dbi(dbWoS)
 # src:  postgres  [asilva@idb1:5432/wos]
 # tbls: abstract, address, author, author_address, conference,
@@ -54,8 +54,6 @@ dbplyr::src_dbi(dbWoS)
 # publication, publication_conference, publication_descriptor, publisher,
 # reference, reference_context, reference_patent, reference_unindexed, source
 
-#### Querying the database with the dplyr syntax ####
-# https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html
 
 #### Searches: ####
 # a.1. Search by Title
@@ -75,7 +73,7 @@ pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title))
 
 
-# b.Search by Title words and Year (paste version):
+# b.Search by Title words and Year
 # We can also limit searches based on multiple criteria for different fields. 
 # Let’s run the same search as above, but limit it to only publications 
 # published later than 2015. Type
@@ -138,7 +136,7 @@ pubSearchE <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
   dplyr::filter(year > "2015")
 
-# f. Search by Title words, Year and Author name (paste version):  
+# f. Search by Title words, Year and Author name 
 # You can also limit searches based on information in these multiple 
 # tables. Let’s run the same search from above, but also limit to only 
 # authors with the last name “Reid”. Type
@@ -151,7 +149,7 @@ pubSearchF <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::filter(year > "2015")
 
 
-# g. Search by Year and Source name (paste version):
+# g. Search by Year and Source name
 # This can continue to get more complicated. You might want to join a table
 # in order to query a field, but aren’t interested in including the data from
 # that table in the final results. Note you could construct
@@ -170,7 +168,7 @@ pubSearchG <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::select(-name)
  
 
-# h. Search by Title words, Year and Author institution (paste version):  
+# h. Search by Title words, Year and Author institution   
 # Some tables in the database are bridging tables, where there are many-to-one
 # relationships, such as an author having many addresses. Let’s query the 
 # database to find all publications with the word “visualization” in the title,
@@ -190,7 +188,7 @@ pubSearchH <- dplyr::tbl(dbWoS,
   dplyr::filter(grepl("Univ Toronto", address))
 
 
-# i. Search by Keywords and Year (paste version):
+# i. Search by Keywords and Year
 # Here we are using another bridging table, this time to find publications
 # based on a particular descriptor, such as a subject or keyword. This example
 # is similar to the one above except searching by Keywords Plus (standardized
@@ -205,7 +203,7 @@ pubSearchI <- dplyr::tbl(dbWoS, c("publication", "descriptor")) %>%
 
 
 # j. Search by Title words and Year, returning only publication title 
-# and abstract (paste version):  
+# and abstract  
 # One useful field for text analysis that we haven't seen in our examples 
 # yet would be to obtain abstracts for the items found. Let’s run a search 
 # with similar search parameters to example b, but return titles and 
@@ -218,7 +216,7 @@ pubSearchJ <- dplyr::tbl(dbWoS, c("abstract", "publication")) %>%
   dplyr::filter(year > "2019")
 
 
-# k. Search for articles that cite a subset of articles (paste version):
+# k. Search for articles that cite a subset of articles
 # The Web of Science dataset is very valuable to analyze citation networks. 
 # For example, we can use another bridging table called references to find 
 # all publication IDs that cited or are cited by other publication IDs. 
@@ -242,7 +240,7 @@ pubSearchK <- dplyr::tbl(dbWoS, c("publication", "reference")) %>%
   dplyr::filter(.data[["citing_id"]] %in% pubSuset)
 
 
-# l. Search for articles that are cited by a subset of articles (paste version):  
+# l. Search for articles that are cited by a subset of articles 
 # We can also query this the opposite way to find articles cited by a subset
 # of articles. Let’s query the database to find all the articles that are 
 # cited by a (very small) subset of items. The subset is the same as in 
