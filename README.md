@@ -34,7 +34,7 @@ Library](https://mdl.library.utoronto.ca/technology/tutorials/how-access-web-sci
 R script of this tutorial and the PDF document of this tutorial are
 available on this repository.
 
-#### Login to SciNet, install modules and open R
+## Login to SciNet, install modules and open R
 
 To install needed modules and open R there are two options as shown
 below:
@@ -55,7 +55,7 @@ singularity pull docker://rocker/tidyverse:4.1.3
 singularity exec tidyverse_4.1.3.sif R
 ```
 
-#### Download R packages
+## Download R packages
 
 Now that R is opened, download the needed R packages. Once downloaded,
 attach each package to current session using command library.
@@ -73,7 +73,7 @@ library("magrittr")
 library("stringr")
 ```
 
-#### Connecting to database on R
+## Connecting to database on R
 
 We will connect to WoS database using R package `DBI` and using function
 dbConnect(). Anything followed by a hashtag is a comment in R.
@@ -88,7 +88,7 @@ dbWoS <- DBI::dbConnect(RPostgres::Postgres(),
 dbplyr::src_dbi(dbWoS)
 ```
 
-#### Getting help with R
+## Getting help with R
 
 If you are unclear of any function used, you may type `?` followed by
 function name to pull up the help documentation. Another option is to
@@ -102,7 +102,7 @@ use help() function. Both options are shown below.
 help(dbConnect, package = "DBI")
 ```
 
-#### a. Search by Title
+## a. Search by Title
 
 Let’s find publications that have the word “visualization”. Type
 
@@ -123,7 +123,7 @@ pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title))
 ```
 
-#### b. Search by Title words and Year
+## b. Search by Title words and Year
 
 We can also limit searches based on multiple criteria for different
 fields. Let’s run the same search as above, but limit it to only
@@ -137,7 +137,7 @@ pubSearchB <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::filter(year > "2015")
 ```
 
-#### c. Search by Title words and Year, return specific fields only
+## c. Search by Title words and Year, return specific fields only
 
 We have been selecting few fields in the publication table, but we can
 instead select several fields (type, year, title, ref\_count) from the
@@ -163,7 +163,7 @@ pubSearchC2 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::filter(year > "2015")
 ```
 
-#### d. Search by Title words and Year, but return Author information as well
+## d. Search by Title words and Year, but return Author information as well
 
 So far these queries have focused on returning data from one table, but
 you can join tables to get information from multiple tables, such as
@@ -180,7 +180,7 @@ pubSearchD <- dplyr::tbl(dbWoS, c("publication", "author")) %>%
 # Note: This will result in publication titles being duplicated if there are multiple authors to list.
 ```
 
-#### e. Search by Title words and Year, but return Author and Source information as well
+## e. Search by Title words and Year, but return Author and Source information as well
 
 You can join one table to more than one other table to pull in more
 information into your results. Let’s run the query from example d, but
@@ -194,7 +194,7 @@ pubSearchE <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::filter(year > "2015")
 ```
 
-#### f. Search by Title words, Year and Author name
+## f. Search by Title words, Year and Author name
 
 You can also limit searches based on information in these multiple
 tables. Let’s run the same search from above, but also limit to only
@@ -209,7 +209,7 @@ pubSearchF <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::filter(year > "2015")
 ```
 
-#### g. Search by Year and Source name
+## g. Search by Year and Source name
 
 This can continue to get more complicated. You might want to join a
 table in order to query a field, but aren’t interested in including the
@@ -230,7 +230,7 @@ pubSearchG <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::select(-name)
 ```
 
-#### h. Search by Title words, Year and Author institution
+## h. Search by Title words, Year and Author institution
 
 Some tables in the database are bridging tables, where there are
 many-to-one relationships, such as an author having many addresses.
@@ -253,7 +253,7 @@ pubSearchH <- dplyr::tbl(dbWoS,
   dplyr::filter(grepl("Univ Toronto", address))
 ```
 
-#### i. Search by Keywords and Year
+## i. Search by Keywords and Year
 
 Here we are using another bridging table, this time to find publications
 based on a particular descriptor, such as a subject or keyword. This
@@ -270,7 +270,7 @@ pubSearchI <- dplyr::tbl(dbWoS, c("publication", "descriptor")) %>%
   dplyr::filter(text == "Artificial Intelligence")
 ```
 
-#### j. Search by Title words and Year, returning only publication title and abstract
+## j. Search by Title words and Year, returning only publication title and abstract
 
 One useful field for text analysis that we haven’t seen in our examples
 yet would be to obtain abstracts for the items found. Let’s run a search
@@ -285,7 +285,7 @@ pubSearchJ <- dplyr::tbl(dbWoS, c("abstract", "publication")) %>%
   dplyr::filter(year > "2019")
 ```
 
-#### k. Search for articles that cite a subset of articles
+## k. Search for articles that cite a subset of articles
 
 The Web of Science dataset is very valuable to analyze citation
 networks. For example, we can use another bridging table called
@@ -312,7 +312,7 @@ pubSearchK <- dplyr::tbl(dbWoS, c("publication", "reference")) %>%
   dplyr::filter(.data[["citing_id"]] %in% pubSuset)
 ```
 
-#### l. Search for articles that are cited by a subset of articles
+## l. Search for articles that are cited by a subset of articles
 
 We can also query this the opposite way to find articles cited by a
 subset of articles. Let’s query the database to find all the articles
@@ -334,7 +334,7 @@ pubSearchL <- dplyr::tbl(dbWoS, c("publication", "reference")) %>%
   dplyr::filter(.data[["cited_id"]] %in% pubSuset)
 ```
 
-#### To save results and quit R
+## To save results and quit R
 
 These files will be saved to $HOME
 
