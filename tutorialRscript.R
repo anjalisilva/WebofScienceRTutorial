@@ -1,10 +1,9 @@
 # Created: 30 March 2022
 # Updated: Several Times in March, 8 April, 2022
 # Author: Anjali Silva (a.silva@utoronto.ca)
-# Purpose: Getting Started with the Web of Science PostgreSQL Database
-#          Using R 
+# Purpose: Getting Started with the Web of Science PostgreSQL Database Using R 
 
-#### Tutorial Begins for Users ####
+#### Tutorial Begins ####
 #### First login to SciNet and do this ####
 # cd $HOME 
 # module load gcc

@@ -19,7 +19,8 @@ Accessing the Database via High Performance Computing Environment Available on S
 
 
 ## Introduction
-This tutorial will help querying the Web of Science (WoS) PostgreSQL database for University of Toronto users. The tutorial closely follows SQL and Python tutorials outlined by [University of Toronto Map and Data Library](https://mdl.library.utoronto.ca/technology/tutorials/getting-started-web-science-postgresql-database-MAC). Users will need access to the high performance computing environment on SciNet for querying the WoS database. Instructions for accessing SciNet are outlined by [University of Toronto Library](https://mdl.library.utoronto.ca/technology/tutorials/how-access-web-science-postgresql-database).
+This tutorial will help querying the Web of Science (WoS) PostgreSQL database for University of Toronto users. The tutorial closely follows SQL and Python tutorials outlined by [University of Toronto Map and Data Library](https://mdl.library.utoronto.ca/technology/tutorials/getting-started-web-science-postgresql-database-MAC). Users will need access to the high performance computing environment on SciNet for querying the WoS database. Instructions for accessing SciNet are outlined by [University of Toronto Library](https://mdl.library.utoronto.ca/technology/tutorials/how-access-web-science-postgresql-database). R script of this entire tutorial (tutorialRscript.R), R script of one search as an example (exampleSearchERScript.R), and the PDF document of this tutorial (tutorialPDFdocument.PDF) are available on this repository. 
+
 
 
 #### Login to SciNet, install modules and open R

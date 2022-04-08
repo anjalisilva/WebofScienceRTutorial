@@ -31,8 +31,10 @@ Users will need access to the high performance computing environment on
 SciNet for querying the WoS database. Instructions for accessing SciNet
 are outlined by [University of Toronto
 Library](https://mdl.library.utoronto.ca/technology/tutorials/how-access-web-science-postgresql-database).
-R script of this tutorial and the PDF document of this tutorial are
-available on this repository.
+R script of this entire tutorial (tutorialRscript.R), R script of one
+search as an example (exampleSearchERScript.R), and the PDF document of
+this tutorial (tutorialPDFdocument.PDF) are available on this
+repository.
 
 ## Login to SciNet, install modules and open R
 
