@@ -1,16 +1,7 @@
 # Created: 30 March 2022
-# Updated: Several Times in March, 1 April, 2022
+# Updated: Several Times in March, 8 April, 2022
 # Author: Anjali Silva (a.silva@utoronto.ca)
-
-#### Notes for Anjali (Not in Tutorial) ####
 # Purpose: Getting Started with the Web of Science PostgreSQL Database
-# Write the equivalent version in R language
-# Library link of existing tutorial:
-# https://mdl.library.utoronto.ca/technology/tutorials/getting-started-web-science-postgresql-database-MAC
-# helpful link:
-# https://www.datacareer.de/blog/connect-to-postgresql-with-r-a-step-by-step-example/
-
-
 
 #### Tutorial Begins for Users ####
 
@@ -285,34 +276,5 @@ save.image(file = paste0("WoSQueryDate",Sys.Date(),".RData"))
 # Enter 'q()' at prompt to quit R. 
 # If you would like to 'Save workspace image?', press 'y'.
 
-#### Checking results (Not in Tutorial) ####
-set.seed(1234)
-searchWords <- c("Zrenner, Brigitte")
-pubSearchName1 <- dplyr::tbl(dbWoS, c("publication", "author", "address")) %>%
-  # data.frame() %>%
-  dplyr::select(year, title, type, full_name, address, country, city) %>%
-  dplyr::filter(year == "2021") %>%
-  dplyr::filter(country == "Canada") %>%
-  dplyr::filter(city == "Toronto") %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), full_name)) %>%
-  dplyr::filter(grepl("Univ Toronto", address)) %>% 
-  dplyr::select(full_name, title, type) 
-
-# name appeared in 
-
-tbl <- dplyr::tibble(a = 1:3, bc = 4:6)
-tbl[, "a"]
-tbl$bc
-tbl[[2]]
-str(tbl)
-
-test <- tbl %>%
-  dplyr::select(a) %>%
-  as.vector()
-
-
-saveRDS(pubSearchName1, file = paste0("pubSearchNameMagder",Sys.Date(),".rds"))
-test123 <- readRDS(file = "pubSearchNameMagder.rds")
-# Error: Invalid connection
 
 # [END]
