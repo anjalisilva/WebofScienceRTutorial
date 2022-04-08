@@ -98,7 +98,9 @@ tail(pubSearchA1)
 searchWords <- c("visualization", "library", "libraries", "librarian")
 pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::select(title) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title))
+  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
+  dplyr::collect() # retrieves data into a local tibble
+
 
 
 # b. Search by Title words and Year
@@ -110,7 +112,17 @@ searchWords <- c("visualization", "library", "libraries", "librarian")
 pubSearchB <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::select(title, year) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015")
+  dplyr::filter(year > "2015") %>%
+  dplyr::collect() # retrieves data into a local tibble
+
+# To see the dimensions of the results
+dim(pubSearchB) 
+# 14354 rows x 2 column as of 8 April 2022
+# 14354 publications contain search words
+# 2 columns are title and year
+
+# To access first publication retrieved 
+pubSearchB[1, ] 
 
 
 # c. Search by Title words and Year, return specific fields:
@@ -122,7 +134,14 @@ searchWords <- c("visualization", "library", "libraries", "librarian")
 pubSearchC1 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::select(type, year, title, ref_count) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015")
+  dplyr::filter(year > "2015") %>%
+  dplyr::collect() # retrieves data into a local tibble
+
+# To see the dimensions of the results
+dim(pubSearchC1) 
+# 14354 rows x 4 column as of 8 April 2022
+# 14354 publications contain search words
+# 4 columns are: type, year, title, ref_count
 
 # We have been selecting few fields in the publication table, but we can instead
 # select all fields in the publication table. Type
@@ -132,7 +151,15 @@ pubSearchC2 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::select(edition, source_id, type, year, month, day, vol,
                 issue, page_begin, page_end, page_count, title, ref_count) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015")
+  dplyr::filter(year > "2015") %>%
+  dplyr::collect() # retrieves data into a local tibble
+
+# To see the dimensions of the results
+dim(pubSearchC2) 
+# 14354 rows x 13 column as of 8 April 2022
+# 14354 publications contain search words
+# 13 columns are: edition, source_id, type, year, month, day, vol,
+# issue, page_begin, page_end, page_count, title, ref_count
 
 
 # d. Search by Title words and Year, but return Author information as well 
@@ -145,7 +172,8 @@ searchWords <- c("visualization", "library", "libraries", "librarian")
 pubSearchD <- dplyr::tbl(dbWoS, c("publication", "author")) %>%
   dplyr::select(year, title, full_name) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015")
+  dplyr::filter(year > "2015") %>%
+  dplyr::collect() # retrieves data into a local tibble
 
 # (Note: This will result in publication titles being duplicated if there are
 # multiple authors to list)
@@ -160,7 +188,8 @@ searchWords <- c("visualization", "library", "libraries", "librarian")
 pubSearchE <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::select(year, title, full_name, name) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015")
+  dplyr::filter(year > "2015") %>%
+  dplyr::collect() # retrieves data into a local tibble
 
 # f. Search by Title words, Year and Author name 
 # You can also limit searches based on information in these multiple 
@@ -172,7 +201,8 @@ pubSearchF <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::select(year, title, full_name, name) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
   dplyr::filter(grepl("Reid", full_name)) %>%
-  dplyr::filter(year > "2015")
+  dplyr::filter(year > "2015") %>%
+  dplyr::collect() # retrieves data into a local tibble
 
 
 # g. Search by Year and Source name
@@ -191,7 +221,8 @@ pubSearchG <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::select(year, title, full_name, name) %>%
   dplyr::filter(name == toupper("Scientometrics")) %>%
   dplyr::filter(year > "2019") %>%
-  dplyr::select(-name)
+  dplyr::select(-name) %>%
+  dplyr::collect() # retrieves data into a local tibble
  
 
 # h. Search by Title words, Year and Author institution   
@@ -211,7 +242,8 @@ pubSearchH <- dplyr::tbl(dbWoS,
   dplyr::select(year, title, full_name, address) %>%
   dplyr::filter(grepl(searchWords, title)) %>%
   dplyr::filter(year > "2019") %>%
-  dplyr::filter(grepl("Univ Toronto", address))
+  dplyr::filter(grepl("Univ Toronto", address)) %>%
+  dplyr::collect() # retrieves data into a local tibble
 
 
 # i. Search by Keywords and Year
@@ -225,7 +257,8 @@ pubSearchH <- dplyr::tbl(dbWoS,
 pubSearchI <- dplyr::tbl(dbWoS, c("publication", "descriptor")) %>%
   dplyr::select(year, title, text) %>%
   dplyr::filter(year == "2020") %>%
-  dplyr::filter(text == "Artificial Intelligence")
+  dplyr::filter(text == "Artificial Intelligence") %>%
+  dplyr::collect() # retrieves data into a local tibble
 
 
 # j. Search by Title words and Year, returning only publication title 
@@ -239,7 +272,8 @@ searchWords <- c("visualization", "library", "libraries", "librarian")
 pubSearchJ <- dplyr::tbl(dbWoS, c("abstract", "publication")) %>%
   dplyr::select(title, year, text) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2019")
+  dplyr::filter(year > "2019") %>%
+  dplyr::collect() # retrieves data into a local tibble
 
 
 # k. Search for articles that cite a subset of articles
@@ -263,7 +297,8 @@ pubSuset <- dplyr::tbl(dbWoS, c("publication")) %>%
 # Search the subset publication id in citing_id
 pubSearchK <- dplyr::tbl(dbWoS, c("publication", "reference")) %>%
   dplyr::select(title, year, citing_id) %>%
-  dplyr::filter(.data[["citing_id"]] %in% pubSuset)
+  dplyr::filter(.data[["citing_id"]] %in% pubSuset) %>%
+  dplyr::collect() # retrieves data into a local tibble
 
 
 # l. Search for articles that are cited by a subset of articles 
@@ -282,7 +317,8 @@ pubSuset <- dplyr::tbl(dbWoS, c("publication")) %>%
 # Search the subset publication id in cited_ids
 pubSearchL <- dplyr::tbl(dbWoS, c("publication", "reference")) %>%
   dplyr::select(title, year, cited_id) %>%
-  dplyr::filter(.data[["cited_id"]] %in% pubSuset)
+  dplyr::filter(.data[["cited_id"]] %in% pubSuset) %>%
+  dplyr::collect() # retrieves data into a local tibble
 
 
 #### To save results ####
