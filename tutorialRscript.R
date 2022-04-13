@@ -1,7 +1,8 @@
 # Created: 30 March 2022
 # Updated: Several Times in March, 8 April, 2022
 # Author: Anjali Silva (a.silva@utoronto.ca)
-# Purpose: Getting Started with the Web of Science PostgreSQL Database Using R 
+# Purpose: Getting Started with the Web of Science PostgreSQL Database Using R
+# Notes: All data are based on data as of 13 April 2022.
 
 #### Tutorial Begins ####
 #### First login to SciNet and do this ####
@@ -30,10 +31,6 @@ library("RSQLite")
 library("RPostgres")
 library("magrittr")
 library("stringr")
-
-#### Get working directory ####
-getwd()
-
 
 #### Connecting to databases ####
 db <- 'wos'  # provide the name of data base
@@ -66,25 +63,39 @@ help(dbConnect, package = "DBI")
 # a. Search by Title
 # Let’s find publications that have the words “visualization”. Type
 
-searchWords <- c("visualization")  # search word
 pubSearchA1 <- dplyr::tbl(dbWoS, "publication") %>% # access publication
-  dplyr::select(title) %>% # from publication select title
-  dplyr::filter(grepl(searchWords, title)) %>% # filter title for search word
+  dplyr::filter(grepl("visualization", title, ignore.case = TRUE)) %>% # filter title for search word
   dplyr::collect() # retrieves data into a local tibble
 
-# To see the dimensions of the results
-dim(pubSearchA1) 
-# 22395 rows x 1 column as of 8 April 2022
-# 22395 publications contain search word visualization
+dim(pubSearchA1) # 59250 rows x 14 columns (as of 13 April 2022)
+# 59250 publications contain search word visualization
 
 # To access first publication retrieved 
 pubSearchA1[1, ] 
 
-# To see first few publication 
+# To see first few publications 
 head(pubSearchA1)
 
-# To see first last few publication 
+# To see last few publications
 tail(pubSearchA1)
+
+colnames(pubSearchA1) # listing 14 column names 
+# "id"         "edition"    "source_id"  "type"       "year"      
+# "month"      "day"        "vol"        "issue"      "page_begin"
+# "page_end"   "page_count" "title"      "ref_count" 
+
+# To retrieve columns: article title (title) only
+pubSearchA1title <- pubSearchA1 %>%
+  dplyr::select(title) # select title
+
+dim(pubSearchA1title) # 59250 rows x 1 column
+
+# Another way to do the same search 
+pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>% # access publication
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search word; 'ilike' for case-insensitive
+  dplyr::collect() # retrieves data into a local tibble
+
+dim(pubSearchA2) # 59250 rows x 14 columns (as of 13 April 2022)
 
 
 # Let’s find publications that have the words “visualization”, and 
@@ -94,6 +105,14 @@ searchWords <- c("visualization", "library", "libraries", "librarian")
 pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::select(title) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
+  dplyr::collect() # retrieves data into a local tibble
+
+pubSearchE <- dplyr::tbl(dbWoS, "publication") %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"author"), by = c("id"="wos_id")) %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"source"), by = c("source_id"="id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
+  dplyr::filter(year > 2015) %>% # filter for years
   dplyr::collect() # retrieves data into a local tibble
 
 
@@ -179,12 +198,31 @@ pubSearchD <- dplyr::tbl(dbWoS, c("publication", "author")) %>%
 # information into your results. Let’s run the query from example d, 
 # but add the journal information as well. Type
 
-searchWords <- c("visualization", "library", "libraries", "librarian")
-pubSearchE <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
-  dplyr::select(year, title, full_name, name) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015") %>%
+pubSearchE <- dplyr::tbl(dbWoS, "publication") %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"author"), by = c("id"="wos_id")) %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"source"), by = c("source_id"="id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
+  dplyr::filter(year > 2015) %>% # filter for years
   dplyr::collect() # retrieves data into a local tibble
+
+dim(pubSearchE) # dimensions: 441 rows x 24 columns
+
+colnames(pubSearchE) # listing 24 column names 
+# [1] "id.x"         "edition"      "source_id"    "type"         "year"        
+# [6] "month"        "day"          "vol"          "issue"        "page_begin"  
+# [11] "page_end"     "page_count"   "title"        "ref_count"    "id.y"        
+# [16] "full_name"    "seq_no"       "reprint"      "email"        "orcid"       
+# [21] "name"         "publisher_id" "abbrev"       "series"  
+
+# To retrieve columns: publication year (year), article title (title), 
+# author name (full_name) and journal name (name) 
+pubSearchEfilter <- pubSearchE %>%
+  dplyr::select(year, title, full_name, name) 
+
+colnames(pubSearchEfilter) # 4 column names listed
+# "year"      "title"     "full_name" "name"     
+
 
 
 # f. Search by Title words, Year and Author name 
