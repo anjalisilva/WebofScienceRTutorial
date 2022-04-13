@@ -67,10 +67,12 @@ pubSearchA1 <- dplyr::tbl(dbWoS, "publication") %>% # access publication
   dplyr::filter(grepl("visualization", title, ignore.case = TRUE)) %>% # filter title for search word
   dplyr::collect() # retrieves data into a local tibble
 
-dim(pubSearchA1) # 59250 rows x 14 columns (as of 13 April 2022)
+# To get dimensions 
+dim(pubSearchA1) 
+# 59250 rows x 14 columns (as of 13 April 2022)
 # 59250 publications contain search word visualization
 
-# To access first publication retrieved 
+# To access first publication  
 pubSearchA1[1, ] 
 
 # To see first few publications 
@@ -84,37 +86,25 @@ colnames(pubSearchA1) # listing 14 column names
 # "month"      "day"        "vol"        "issue"      "page_begin"
 # "page_end"   "page_count" "title"      "ref_count" 
 
-# To retrieve columns: article title (title) only
-pubSearchA1title <- pubSearchA1 %>%
-  dplyr::select(title) # select title
 
-dim(pubSearchA1title) # 59250 rows x 1 column
-
-# Another way to do the same search 
+# Another way to do the same search as above, to find publications
+# that have the words “visualization”.
 pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>% # access publication
   dplyr::filter(title %ilike% "%visualization%") %>% # filter for search word; 'ilike' for case-insensitive
   dplyr::collect() # retrieves data into a local tibble
 
-dim(pubSearchA2) # 59250 rows x 14 columns (as of 13 April 2022)
-
+dim(pubSearchA2) # 59250 rows x 14 columns 
 
 # Let’s find publications that have the words “visualization”, and 
 # “library” OR “libraries” OR “librarian” in the title. Type
 
-searchWords <- c("visualization", "library", "libraries", "librarian")
-pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::select(title) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::collect() # retrieves data into a local tibble
-
-pubSearchE <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::inner_join(dplyr::tbl(dbWoS,"author"), by = c("id"="wos_id")) %>%
-  dplyr::inner_join(dplyr::tbl(dbWoS,"source"), by = c("source_id"="id")) %>%
+pubSearchA3 <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
   dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
-  dplyr::filter(year > 2015) %>% # filter for years
   dplyr::collect() # retrieves data into a local tibble
 
+dim(pubSearchA3) #  145 rows x 14 columns 
+# 145 publications 
 
 
 # b. Search by Title words and Year
@@ -122,81 +112,61 @@ pubSearchE <- dplyr::tbl(dbWoS, "publication") %>%
 # Let’s run the same search as above, but limit it to only publications 
 # published later than 2015. Type
 
-searchWords <- c("visualization", "library", "libraries", "librarian")
 pubSearchB <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::select(title, year) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
   dplyr::filter(year > "2015") %>%
   dplyr::collect() # retrieves data into a local tibble
 
-# To see the dimensions of the results
-dim(pubSearchB) 
-# 14354 rows x 2 column as of 8 April 2022
-# 14354 publications contain search words
-# 2 columns are title and year
-
-# To access first publication retrieved 
-pubSearchB[1, ] 
+dim(pubSearchB) # 65 rows x 14 columns
+# 65 publications 
 
 
 # c. Search by Title words and Year, return specific fields:
-# We have been selecting few fields in the publication table, but we can instead
-# select several fields (type, year, title, ref_count) from the publication 
-# table. Type
+# We have been selecting all the fields in the publication table, but
+# we can instead only pick the ones of interest. Let’s only output the 
+# publication title and year. Type
 
-searchWords <- c("visualization", "library", "libraries", "librarian")
-pubSearchC1 <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::select(type, year, title, ref_count) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015") %>%
+pubSearchC <- dplyr::tbl(dbWoS, "publication") %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
+  dplyr::filter(year > 2015) %>% # filter for years
+  dplyr::select(year, title) %>% # output only publication title and year
   dplyr::collect() # retrieves data into a local tibble
 
-# To see the dimensions of the results
-dim(pubSearchC1) 
-# 14354 rows x 4 column as of 8 April 2022
-# 14354 publications contain search words
-# 4 columns are: type, year, title, ref_count
-
-# We have been selecting few fields in the publication table, but we can instead
-# select all fields in the publication table. Type
-
-searchWords <- c("visualization", "library", "libraries", "librarian")
-pubSearchC2 <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::select(edition, source_id, type, year, month, day, vol,
-                issue, page_begin, page_end, page_count, title, ref_count) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015") %>%
-  dplyr::collect() # retrieves data into a local tibble
-
-# To see the dimensions of the results
-dim(pubSearchC2) 
-# 14354 rows x 13 column as of 8 April 2022
-# 14354 publications contain search words
-# 13 columns are: edition, source_id, type, year, month, day, vol,
-# issue, page_begin, page_end, page_count, title, ref_count
+dim(pubSearchC) # 65 rows x 2 columns 
+# 65 publications and 2 columns: year and title
 
 
 # d. Search by Title words and Year, but return Author information as well 
 # So far these queries have focused on returning data from one table, but
 # you can join tables to get information from multiple tables, such as
-# publication and author. Let’s run the same search from above, 
-# but also get author names included in the results. Type
+# publication and author. Let’s run the same search from above, but also
+# get author names included in the results. Type
 
-searchWords <- c("visualization", "library", "libraries", "librarian")
-pubSearchD <- dplyr::tbl(dbWoS, c("publication", "author")) %>%
-  dplyr::select(year, title, full_name) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015") %>%
+pubSearchD <- dplyr::tbl(dbWoS, "publication") %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"author"), by = c("id"="wos_id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
+  dplyr::filter(year > 2015) %>% # filter for years
   dplyr::collect() # retrieves data into a local tibble
 
 # (Note: This will result in publication titles being duplicated if there are
 # multiple authors to list)
 
+dim(pubSearchD) # 441 rows x 20 columns 
+
+colnames(pubSearchD) # listing 20 column names 
+# "id.x"       "edition"    "source_id"  "type"       "year"      
+# "month"      "day"        "vol"        "issue"      "page_begin"
+# "page_end"   "page_count" "title"      "ref_count"  "id.y"      
+# "full_name"  "seq_no"     "reprint"    "email"      "orcid"
+
 
 # e. Search by Title words and Year, but return Author and Source information as well
-# You can join one table to more than one other table to pull in more  
-# information into your results. Let’s run the query from example d, 
-# but add the journal information as well. Type
+# You can join one table to more than one other table to pull in more information into 
+# your results. Let’s run the query from example d, but add the journal information 
+# as well. Type
 
 pubSearchE <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::inner_join(dplyr::tbl(dbWoS,"author"), by = c("id"="wos_id")) %>%
@@ -215,26 +185,37 @@ colnames(pubSearchE) # listing 24 column names
 # [16] "full_name"    "seq_no"       "reprint"      "email"        "orcid"       
 # [21] "name"         "publisher_id" "abbrev"       "series"  
 
-# To retrieve columns: publication year (year), article title (title), 
-# author name (full_name) and journal name (name) 
-pubSearchEfilter <- pubSearchE %>%
-  dplyr::select(year, title, full_name, name) 
-
-colnames(pubSearchEfilter) # 4 column names listed
-# "year"      "title"     "full_name" "name"     
-
 
 
 # f. Search by Title words, Year and Author name 
-# You can also limit searches based on information in these multiple 
-# tables. Let’s run the same search from above, but also limit to only 
-# authors with the last name “Reid”. Type
+# You can also limit searches based on information in these multiple tables. 
+# Let’s run the same search from above, but also limit to only authors with  
+# the last name “Reid”. Type
 
-searchWords <- c("visualization", "library", "libraries", "librarian")
+
+pubSearchF <- dplyr::tbl(dbWoS, "publication") %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"author"), by = c("id"="wos_id")) %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"source"), by = c("source_id"="id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
+  dplyr::filter(full_name %ilike% "Reid, %") %>% # filter for search words
+  dplyr::filter(year > 2015) %>% # filter for years
+  dplyr::collect() # retrieves data into a local tibble
+
+
+pubSearchF <- dplyr::tbl(dbWoS, "publication") %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"author"), by = c("id"="wos_id")) %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"source"), by = c("source_id"="id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
+  dplyr::filter(grepl("Reid", full_name, ignore.case = TRUE)) %>%
+  dplyr::filter(year > 2015) %>% # filter for years
+  dplyr::collect() # retrieves data into a local tibble
+
 pubSearchF <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
   dplyr::select(year, title, full_name, name) %>%
   dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(grepl("Reid", full_name)) %>%
+
   dplyr::filter(year > "2015") %>%
   dplyr::collect() # retrieves data into a local tibble
 
