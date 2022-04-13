@@ -222,8 +222,8 @@ pubSearchG <- dplyr::tbl(dbWoS, "publication") %>%
   
   
 pubSearchG <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::filter(id == (dplyr::inner_join(dplyr::tbl(dbWoS,"source"), by = c("source_id"="id")) %>%
-  dplyr::filter(name %ilike% "%Scientometrics%"))) %>% # filter for source name
+  dplyr::inner_join(dplyr::tbl(dbWoS,"source"), by = c("source_id"="id")) %>%
+  dplyr::filter(name %ilike% "%Scientometrics%") %>% # filter for source name
   dplyr::collect() # retrieves data into a local tibble
 
 
