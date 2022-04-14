@@ -204,7 +204,7 @@ pubSearchF <- dplyr::tbl(dbWoS, "publication") %>%
 dim(pubSearchF) # dimensions: 1 row x 24 columns
 
 
-# g. Search by Year and Source name *
+# g. Search by Year and Source name 
 # This can continue to get more complicated. You might want to join a table
 # in order to query a field, but aren’t interested in including the data from
 # that table in the final results. Note you could construct
@@ -253,7 +253,7 @@ dim(pubSearchH) # dimensions: 0 rows x 2 columns
 
 
 
-# i. Search by Keywords and Year *
+# i. Search by Keywords and Year
 # Here we are using another bridging table, this time to find publications
 # based on a particular descriptor, such as a subject or keyword. This example
 # is similar to the one above except searching by Keywords Plus (standardized
@@ -272,8 +272,8 @@ pubSearchI <- dplyr::tbl(dbWoS, "descriptor") %>%
   dplyr::select(year, title) %>%
   dplyr::collect() # retrieves data into a local tibble
 
-  
-  dim(pubSearchI)
+dim(pubSearchI) # dimensions: 2 rows x 2 columns
+
 
 # j. Search by Title words and Year, returning only publication title 
 # and abstract  
