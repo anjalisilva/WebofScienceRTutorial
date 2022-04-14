@@ -266,8 +266,14 @@ pubSearchI <- dplyr::tbl(dbWoS, "descriptor") %>%
   dplyr::filter(type == "kw_plus") %>% 
   dplyr::select(id) %>% # select address IDs that are for UofT
   dplyr::left_join(dplyr::tbl(dbWoS,"publication_descriptor"), by = c("id"="desc_id")) %>%
+  dplyr::select(wos_id) %>% 
+  dplyr::left_join(dplyr::tbl(dbWoS,"publication"), by = c("wos_id"="id")) %>%
+  dplyr::filter(year == "2020") %>%
+  dplyr::select(year, title) %>%
   dplyr::collect() # retrieves data into a local tibble
 
+  
+  dim(pubSearchI)
 
 # j. Search by Title words and Year, returning only publication title 
 # and abstract  
