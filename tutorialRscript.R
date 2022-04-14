@@ -1,5 +1,5 @@
 # Created: 30 March 2022
-# Updated: Several Times in March, 8 April, 2022
+# Updated: March, 2022; April, 2022
 # Author: Anjali Silva (a.silva@utoronto.ca)
 # Purpose: Getting Started with the Web of Science PostgreSQL Database Using R
 # Notes: All data are based on data as of 13 April 2022.
@@ -204,7 +204,7 @@ pubSearchF <- dplyr::tbl(dbWoS, "publication") %>%
 dim(pubSearchF) # dimensions: 1 row x 24 columns
 
 
-# g. Search by Year and Source name
+# g. Search by Year and Source name *
 # This can continue to get more complicated. You might want to join a table
 # in order to query a field, but aren’t interested in including the data from
 # that table in the final results. Note you could construct
@@ -216,26 +216,18 @@ dim(pubSearchF) # dimensions: 1 row x 24 columns
 # the source name is “Scientometrics” then filters publications that have that 
 # source ID, plus the other criteria outlined below. Type
 
-pubSearchG <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::inner_join(dplyr::tbl(dbWoS,"author"), by = c("id"="wos_id")) %>%
-  dplyr::filter(year > 2019) %>% # filter for years
-  
-  
-pubSearchG <- dplyr::tbl(dbWoS, "publication") %>%
-  dplyr::inner_join(dplyr::tbl(dbWoS,"source"), by = c("source_id"="id")) %>%
+pubSearchG <- dplyr::tbl(dbWoS, "source") %>%  
   dplyr::filter(name %ilike% "%Scientometrics%") %>% # filter for source name
-  dplyr::collect() # retrieves data into a local tibble
-
-
-pubSearchG <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
-  dplyr::select(year, title, full_name, name) %>%
-  dplyr::filter(name == toupper("Scientometrics")) %>%
+  dplyr::select(id) %>% # select source IDs where source name is "Scientometrics"
+  dplyr::left_join(dplyr::tbl(dbWoS,"publication"), by = c("id"="source_id")) %>%
+  dplyr::left_join(dplyr::tbl(dbWoS,"author"), by = c("id.y"="wos_id")) %>%
   dplyr::filter(year > "2019") %>%
-  dplyr::select(-name) %>%
   dplyr::collect() # retrieves data into a local tibble
+
+dim(pubSearchG) # dimensions: 3536 rows x 20 columns
  
 
-# h. Search by Title words, Year and Author institution   
+# h. Search by Title words, Year and Author institution *   
 # Some tables in the database are bridging tables, where there are many-to-one
 # relationships, such as an author having many addresses. Let’s query the 
 # database to find all publications with the word “visualization” in the title,
@@ -246,17 +238,22 @@ pubSearchG <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
 # Just to simplify the query and make it run faster for this example, we're
 # just looking for addresses with "Univ Toronto". Type  
   
-searchWords <- c("visualization")
-pubSearchH <- dplyr::tbl(dbWoS, 
-  c("publication", "author", "address")) %>%
-  dplyr::select(year, title, full_name, address) %>%
-  dplyr::filter(grepl(searchWords, title)) %>%
+
+pubSearchH <- dplyr::tbl(dbWoS, "address") %>%  
+  dplyr::filter(address %ilike% "%Univ Toronto%") %>% # filter for UofT
+  dplyr::select(id) %>% # select address IDs that are for UofT
+  dplyr::left_join(dplyr::tbl(dbWoS,"author"), by = c("id"="id")) %>%
+  dplyr::left_join(dplyr::tbl(dbWoS,"publication"), by = c("id"="source_id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
   dplyr::filter(year > "2019") %>%
-  dplyr::filter(grepl("Univ Toronto", address)) %>%
+  dplyr::select(title, full_name) %>% # select address IDs that are for UofT
   dplyr::collect() # retrieves data into a local tibble
 
+dim(pubSearchH) # dimensions: 0 rows x 2 columns
 
-# i. Search by Keywords and Year
+
+
+# i. Search by Keywords and Year *
 # Here we are using another bridging table, this time to find publications
 # based on a particular descriptor, such as a subject or keyword. This example
 # is similar to the one above except searching by Keywords Plus (standardized
@@ -264,10 +261,11 @@ pubSearchH <- dplyr::tbl(dbWoS,
 # query the database to find all publications from 2020 that have a Keywords 
 # Plus field roughly equal to “Artificial Intelligence”. Type 
 
-pubSearchI <- dplyr::tbl(dbWoS, c("publication", "descriptor")) %>%
-  dplyr::select(year, title, text) %>%
-  dplyr::filter(year == "2020") %>%
-  dplyr::filter(text == "Artificial Intelligence") %>%
+pubSearchI <- dplyr::tbl(dbWoS, "descriptor") %>% 
+  dplyr::filter(text %ilike% "%Artificial Intelligence%") %>% # filter for UofT
+  dplyr::filter(type == "kw_plus") %>% 
+  dplyr::select(id) %>% # select address IDs that are for UofT
+  dplyr::left_join(dplyr::tbl(dbWoS,"publication_descriptor"), by = c("id"="desc_id")) %>%
   dplyr::collect() # retrieves data into a local tibble
 
 
@@ -277,12 +275,13 @@ pubSearchI <- dplyr::tbl(dbWoS, c("publication", "descriptor")) %>%
 # yet would be to obtain abstracts for the items found. Let’s run a search 
 # with similar search parameters to example b, but return titles and 
 # abstracts only. Type
-  
-searchWords <- c("visualization", "library", "libraries", "librarian")
-pubSearchJ <- dplyr::tbl(dbWoS, c("abstract", "publication")) %>%
-  dplyr::select(title, year, text) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2019") %>%
+
+pubSearchJ <- dplyr::tbl(dbWoS, "publication") %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"abstract"), by = c("id"="wos_id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
+  dplyr::filter(year > 2019) %>% # filter for years
+  dplyr::select(title, text) %>% # select only title and text 
   dplyr::collect() # retrieves data into a local tibble
 
 
