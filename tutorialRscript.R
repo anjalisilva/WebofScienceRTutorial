@@ -290,6 +290,7 @@ pubSearchJ <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::select(title, text) %>% # select only title and text 
   dplyr::collect() # retrieves data into a local tibble
 
+dim(pubSearchJ) # dimensions: 20 rows x 2 columns
 
 # k. Search for articles that cite a subset of articles
 # The Web of Science dataset is very valuable to analyze citation networks. 
@@ -302,18 +303,14 @@ pubSearchJ <- dplyr::tbl(dbWoS, "publication") %>%
 # types of queries are intensive and can take a while to run, so this is a
 # very simple and small example to get you started. Type
 
-searchWords <- c("visualization", "library", "libraries", "librarian")
-# First create the subset
-pubSuset <- dplyr::tbl(dbWoS, c("publication")) %>%
-  dplyr::select(title, year, id) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
+pubSearchK <- dplyr::tbl(dbWoS, "publication") %>%  
+  dplyr::left_join(dplyr::tbl(dbWoS,"reference"), by = c("id"="citing_id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
   dplyr::filter(year > "2019") %>%
-  dplyr::pull(id) 
-# Search the subset publication id in citing_id
-pubSearchK <- dplyr::tbl(dbWoS, c("publication", "reference")) %>%
-  dplyr::select(title, year, citing_id) %>%
-  dplyr::filter(.data[["citing_id"]] %in% pubSuset) %>%
+  dplyr::select(title) %>% # select address IDs that are for UofT
   dplyr::collect() # retrieves data into a local tibble
+
+dim(pubSearchH) # dimensions: 0 rows x 2 columns
 
 
 # l. Search for articles that are cited by a subset of articles 
