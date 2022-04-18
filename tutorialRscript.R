@@ -21,11 +21,12 @@
 # singularity exec tidyverse_4.1.3.sif R
 
 #### Download R packages ####
-install.packages(c("DBI", "dplyr", 
+install.packages(c("DBI", 
+                   "dbplyr", 
                    "RPostgres", 
                    "magrittr"))
 library("DBI")
-library("dplyr")
+library("dbplyr")
 library("RPostgres")
 library("magrittr")
 
@@ -36,12 +37,10 @@ dbWoS <- DBI::dbConnect(RPostgres::Postgres(),
                  dbname = db, 
                  host = hostdb)  
 # Let’s take a closer look at the mammals database 
-dbplyr::src_dbi(dbWoS)
-# src:  postgres  [asilva@idb1:5432/wos]
-# tbls: abstract, address, author, author_address, conference,
-# conference_sponsor, contributor, descriptor, funding, identifier, openaccess,
-# publication, publication_conference, publication_descriptor, publisher,
-# reference, reference_context, reference_patent, reference_unindexed, source
+DBI::dbListTables(dbWoS)
+
+# Determine how many tables
+length(dbListTables(dbWoS)) # 20 different tables
 
 
 #### Getting help with R ####
@@ -78,6 +77,7 @@ head(pubSearchA1)
 # To see last few publications
 tail(pubSearchA1)
 
+# To see column names
 colnames(pubSearchA1) # listing 14 column names 
 # "id"         "edition"    "source_id"  "type"       "year"      
 # "month"      "day"        "vol"        "issue"      "page_begin"
