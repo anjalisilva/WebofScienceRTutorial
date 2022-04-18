@@ -303,14 +303,17 @@ dim(pubSearchJ) # dimensions: 20 rows x 2 columns
 # types of queries are intensive and can take a while to run, so this is a
 # very simple and small example to get you started. Type
 
-pubSearchK <- dplyr::tbl(dbWoS, "publication") %>%  
-  dplyr::left_join(dplyr::tbl(dbWoS,"reference"), by = c("id"="citing_id")) %>%
+pubSearchK <- dplyr::tbl(dbWoS, "reference") %>%  
+  dplyr::inner_join(dplyr::tbl(dbWoS,"publication"), by = c("cited_id"="id")) %>%
   dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
   dplyr::filter(year > "2019") %>%
-  dplyr::select(title) %>% # select address IDs that are for UofT
+  dplyr::select(citing_id) %>%
+  dplyr::left_join(dplyr::tbl(dbWoS,"publication"), by = c("citing_id"="id")) %>%
+  dplyr::select(title) %>% # 
   dplyr::collect() # retrieves data into a local tibble
 
-dim(pubSearchH) # dimensions: 0 rows x 2 columns
+dim(pubSearchK) # dimensions: 40 rows x 1 columns
 
 
 # l. Search for articles that are cited by a subset of articles 
@@ -319,18 +322,17 @@ dim(pubSearchH) # dimensions: 0 rows x 2 columns
 # cited by a (very small) subset of items. The subset is the same as in 
 # example k, and the modifications to the query in example k are minimal. Type
 
-searchWords <- c("visualization", "library", "libraries", "librarian")
-# First create the subset
-pubSuset <- dplyr::tbl(dbWoS, c("publication")) %>%
-  dplyr::select(title, year, id) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
+pubSearchL <- dplyr::tbl(dbWoS, "reference") %>%  
+  dplyr::inner_join(dplyr::tbl(dbWoS,"publication"), by = c("citing_id"="id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
   dplyr::filter(year > "2019") %>%
-  dplyr::pull(id) 
-# Search the subset publication id in cited_ids
-pubSearchL <- dplyr::tbl(dbWoS, c("publication", "reference")) %>%
-  dplyr::select(title, year, cited_id) %>%
-  dplyr::filter(.data[["cited_id"]] %in% pubSuset) %>%
+  dplyr::select(cited_id) %>%
+  dplyr::left_join(dplyr::tbl(dbWoS,"publication"), by = c("cited_id"="id")) %>%
+  dplyr::select(title) %>% # 
   dplyr::collect() # retrieves data into a local tibble
+
+dim(pubSearchL) # dimensions: 348 rows x 1 columns
 
 
 #### To save results ####
