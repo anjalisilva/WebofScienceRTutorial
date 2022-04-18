@@ -31,11 +31,13 @@ dbplyr::src_dbi(dbWoS)
 # information into your results. Let’s run the query from example d, 
 # but add the journal information as well. Type
 
-searchWords <- c("visualization", "library", "libraries", "librarian")
-pubSearchE <- dplyr::tbl(dbWoS, c("publication", "author", "source")) %>%
-  dplyr::select(year, title, full_name, name) %>%
-  dplyr::filter(grepl(stringr::str_flatten(searchWords, collapse="|"), title)) %>%
-  dplyr::filter(year > "2015") %>%
+
+pubSearchE <- dplyr::tbl(dbWoS, "publication") %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"author"), by = c("id"="wos_id")) %>%
+  dplyr::inner_join(dplyr::tbl(dbWoS,"source"), by = c("source_id"="id")) %>%
+  dplyr::filter(title %ilike% "%visualization%") %>% # filter for search words
+  dplyr::filter(title %ilike% "%librar%") %>% # filter for search words
+  dplyr::filter(year > 2015) %>% # filter for years
   dplyr::collect() # retrieves data into a local tibble
 
 #### To save results ####
