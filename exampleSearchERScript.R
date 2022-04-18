@@ -5,11 +5,12 @@
 
 
 #### Download R packages ####
-# install.packages(c("DBI", "dplyr", 
-#                   "RPostgres", 
-#                   "magrittr"))
+# install.packages(c("DBI", 
+#                    "dbplyr", 
+#                    "RPostgres", 
+#                    "magrittr"))
 library("DBI")
-library("dplyr")
+library("dbplyr")
 library("RPostgres")
 library("magrittr")
 
@@ -20,7 +21,7 @@ dbWoS <- DBI::dbConnect(RPostgres::Postgres(),
                  dbname = db, 
                  host = hostdb)  
 # Let’s take a closer look at the mammals database 
-dbplyr::src_dbi(dbWoS)
+DBI::dbListTables(dbWoS)
 
 #### Search E ####
 # e. Search by Title words and Year, but return Author and Source information as well
