@@ -21,16 +21,13 @@
 # singularity exec tidyverse_4.1.3.sif R
 
 #### Download R packages ####
-install.packages(c("DBI", "dplyr", "dbplyr",
-                   "RSQLite", "RPostgres", 
-                   "magrittr", "stringr"))
+install.packages(c("DBI", "dplyr", 
+                   "RPostgres", 
+                   "magrittr"))
 library("DBI")
 library("dplyr")
-library("dbplyr")
-library("RSQLite")
 library("RPostgres")
 library("magrittr")
-library("stringr")
 
 #### Connecting to databases ####
 db <- 'wos'  # provide the name of data base
