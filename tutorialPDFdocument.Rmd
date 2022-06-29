@@ -225,6 +225,9 @@ pubSearchF <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchF) # dimensions: 1 row x 24 columns
+
+colnames(pubSearchF)
+# "id.x" "edition" "source_id" "type" "year"  "month" "day" "vol"          "issue" "page_begin"  "page_end" "page_count" "title" "ref_count" "id.y"   "full_name" "seq_no" "reprint"  "email"  "orcid" "name" "publisher_id" "abbrev"  "series"    
 ```
 
 ## g. Search by Year and Source name
@@ -241,6 +244,8 @@ pubSearchG <- dplyr::tbl(dbWoS, "source") %>%
 
 dim(pubSearchG) # dimensions: 3536 rows x 20 columns
 
+colnames(pubSearchG)
+# "id.x" "id.y" "edition" "type" "year"  "month" "day" "vol" "issue"      "page_begin" "page_end" "page_count" "title" "ref_count"  "id"        "full_name"  "seq_no"     "reprint"    "email"      "orcid" 
 ```
 
 ## h. Search by Title words, Year and Author institution   
@@ -273,11 +278,11 @@ pubSearchI <- dplyr::tbl(dbWoS, "descriptor") %>%
   dplyr::select(wos_id) %>% 
   dplyr::left_join(dplyr::tbl(dbWoS,"publication"), by = c("wos_id"="id")) %>%
   dplyr::filter(year == "2020") %>%
-  dplyr::select(year, title) %>%
   dplyr::collect() # retrieves data into a local tibble
 
-dim(pubSearchI) # dimensions: 2 rows x 2 columns
-
+dim(pubSearchI) # dimensions: 2 rows x 14 columns
+colnames(pubSearchI)
+# "wos_id" "edition" "source_id" "type" "year" "month" "day" "vol"        "issue" "page_begin" "page_end"   "page_count" "title" "ref_count" 
 ```
 
 ## j. Search by Title words and Year, returning only publication title and abstract   
@@ -295,6 +300,8 @@ pubSearchJ <- dplyr::tbl(dbWoS, "publication") %>%
 
 dim(pubSearchJ) # dimensions: 20 rows x 2 columns
 
+colnames(pubSearchJ)
+# "title"     "full_name"
 ```
 
 ## k. Search for articles that cite a subset of articles
@@ -314,6 +321,8 @@ pubSearchK <- dplyr::tbl(dbWoS, "reference") %>%
 
 dim(pubSearchK) # dimensions: 40 rows x 1 columns
 
+colnames(pubSearchK)
+# "title"
 ```
 
 ## l. Search for articles that are cited by a subset of articles 
@@ -333,6 +342,8 @@ pubSearchL <- dplyr::tbl(dbWoS, "reference") %>%
 
 dim(pubSearchL) # dimensions: 348 rows x 1 columns
 
+colnames(pubSearchL)
+# "title"
 ```
 
 ## To save results and quit R
