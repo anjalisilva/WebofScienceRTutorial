@@ -130,7 +130,10 @@ head(pubSearchA1)
 tail(pubSearchA1)
 
 # To see column names
-colnames(pubSearchA1) 
+colnames(pubSearchA1) # listing 14 column names 
+# "id"         "edition"    "source_id"  "type"       "year"      
+# "month"      "day"        "vol"        "issue"      "page_begin"
+# "page_end"   "page_count" "title"      "ref_count" 
 ```
 
 Another way to do the same search as above, to find publications that
