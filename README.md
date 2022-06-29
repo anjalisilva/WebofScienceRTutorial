@@ -142,6 +142,12 @@ pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>% # access publication
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchA2) # dimensions: 59250 rows x 14 columns 
+
+colnames(pubSearchA2) 
+# "id"         "edition"    "source_id"  "type"       "year"      
+# "month"      "day"        "vol"        "issue"      "page_begin"
+# "page_end"   "page_count" "title"      "ref_count"
+
 ```
 
 Let’s find publications that have the words “visualization”, and
@@ -155,6 +161,11 @@ pubSearchA3 <- dplyr::tbl(dbWoS, "publication") %>%
 
 dim(pubSearchA3) # dimensions: 145 rows x 14 columns 
 # 145 publications 
+
+colnames(pubSearchA3)
+# "id"         "edition"    "source_id"  "type"       "year" "month" "day" 
+# "vol"        "issue"      "page_begin" "page_end"   "page_count" "title" 
+# "ref_count" 
 ```
 
 ## b. Search by Title words and Year
@@ -172,6 +183,11 @@ pubSearchB <- dplyr::tbl(dbWoS, "publication") %>%
 
 dim(pubSearchB) # dimensions: 65 rows x 14 columns
 # 65 publications 
+
+colnames(pubSearchB)
+# "id"         "edition"    "source_id"  "type"       "year"  "month" "day"
+# "vol"        "issue"      "page_begin" "page_end"   "page_count" "title"
+# "ref_count"
 ```
 
 ## c. Search by Title words and Year, return specific fields only
@@ -190,6 +206,9 @@ pubSearchC <- dplyr::tbl(dbWoS, "publication") %>%
 
 dim(pubSearchC) # dimensions: 65 rows x 2 columns 
 # 65 publications and 2 columns: year and title
+
+colnames(pubSearchC)
+# "year"  "title"
 ```
 
 ## d. Search by Title words and Year, but return Author information as well
@@ -212,6 +231,10 @@ pubSearchD <- dplyr::tbl(dbWoS, "publication") %>%
 dim(pubSearchD) # dimensions: 441 rows x 20 columns 
 
 colnames(pubSearchD) # listing 20 column names 
+# "id.x"       "edition"    "source_id"  "type"       "year"      
+# "month"   "day"        "vol"        "issue"      "page_begin" 
+# "page_end""page_count" "title"      "ref_count"  "id.y" "full_name"  
+# "seq_no"   "reprint"    "email"      "orcid"
 
 # Note: This will result in publication titles being duplicated if there are multiple authors to list.
 ```
@@ -234,6 +257,10 @@ pubSearchE <- dplyr::tbl(dbWoS, "publication") %>%
 dim(pubSearchE) # dimensions: 441 rows x 24 columns
 
 colnames(pubSearchE) # listing 24 column names 
+# "id.x" "edition"      "source_id"    "type"  "year"   "month"  "day"  
+# "vol" "issue"        "page_begin" "page_end"     "page_count"   "title"
+# "ref_count"    "id.y" "full_name"    "seq_no"       "reprint"      "email"
+# "orcid"  "name"  "publisher_id" "abbrev"       "series"
 ```
 
 ## f. Search by Title words, Year and Author name
@@ -253,6 +280,11 @@ pubSearchF <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchF) # dimensions: 1 row x 24 columns
+
+colnames(pubSearchF)
+# "id.x" "edition" "source_id" "type" "year"  "month" "day" "vol" "issue" "page_begin"
+# "page_end" "page_count" "title" "ref_count" "id.y" "full_name" "seq_no" "reprint"  
+# "email"  "orcid" "name" "publisher_id" "abbrev"  "series"   
 ```
 
 ## g. Search by Year and Source name
@@ -278,6 +310,11 @@ pubSearchG <- dplyr::tbl(dbWoS, "source") %>%
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchG) # dimensions: 3536 rows x 20 columns
+
+colnames(pubSearchG)
+# "id.x" "id.y" "edition" "type" "year"  "month" "day" "vol" "issue" "page_begin" 
+# "page_end" "page_count" "title" "ref_count"  "id"        "full_name"  "seq_no"     
+# "reprint"    "email"      "orcid" 
 ```
 
 ## h. Search by Title words, Year and Author institution
@@ -305,6 +342,9 @@ pubSearchH <- dplyr::tbl(dbWoS, "address") %>%
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchH) # dimensions: 0 rows x 2 columns
+
+colnames(pubSearchH)
+# "title"     "full_name"
 ```
 
 ## i. Search by Keywords and Year
@@ -330,6 +370,10 @@ pubSearchI <- dplyr::tbl(dbWoS, "descriptor") %>%
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchI) # dimensions: 2 rows x 2 columns
+
+colnames(pubSearchI)
+# "wos_id" "edition" "source_id" "type" "year" "month" "day" "vol"        
+# "issue" "page_begin" "page_end"   "page_count" "title" "ref_count" 
 ```
 
 ## j. Search by Title words and Year, returning only publication title and abstract
@@ -349,6 +393,9 @@ pubSearchJ <- dplyr::tbl(dbWoS, "publication") %>%
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchJ) # dimensions: 20 rows x 2 columns
+
+colnames(pubSearchJ)
+# "title"     "full_name"
 ```
 
 ## k. Search for articles that cite a subset of articles
@@ -376,6 +423,9 @@ pubSearchK <- dplyr::tbl(dbWoS, "reference") %>%
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchK) # dimensions: 40 rows x 1 columns
+
+colnames(pubSearchK)
+# "title"
 ```
 
 ## l. Search for articles that are cited by a subset of articles
@@ -398,6 +448,9 @@ pubSearchL <- dplyr::tbl(dbWoS, "reference") %>%
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchL) # dimensions: 348 rows x 1 columns
+
+colnames(pubSearchL)
+# "title"
 ```
 
 ## To save results and quit R
