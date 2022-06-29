@@ -263,6 +263,9 @@ pubSearchH <- dplyr::tbl(dbWoS, "address") %>%
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchH) # dimensions: 0 rows x 2 columns
+
+colnames(pubSearchH)
+# "title"     "full_name"
 ```
 
 
