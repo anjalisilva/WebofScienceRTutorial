@@ -110,6 +110,9 @@ tail(pubSearchA1)
 
 # To see column names
 colnames(pubSearchA1) 
+# "id"         "edition"    "source_id"  "type"       "year"      
+# "month"      "day"        "vol"        "issue"      "page_begin"
+# "page_end"   "page_count" "title"      "ref_count" 
 ```
 
 Another way to do the same search as above, to find publications that have the words “visualization”. Type
@@ -120,6 +123,11 @@ pubSearchA2 <- dplyr::tbl(dbWoS, "publication") %>% # access publication
   dplyr::collect() # retrieves data into a local tibble
 
 dim(pubSearchA2) # dimensions: 59250 rows x 14 columns 
+
+colnames(pubSearchA2) 
+# "id"         "edition"    "source_id"  "type"       "year"      
+# "month"      "day"        "vol"        "issue"      "page_begin"
+# "page_end"   "page_count" "title"      "ref_count"
 ```
 
 Let’s find publications that have the words “visualization”, and “library” OR “libraries” OR “librarian” in the title. Type
@@ -133,7 +141,9 @@ pubSearchA3 <- dplyr::tbl(dbWoS, "publication") %>%
 dim(pubSearchA3) # dimensions: 145 rows x 14 columns 
 # 145 publications 
 colnames(pubSearchA3)
-# "id"         "edition"    "source_id"  "type"       "year" "month" "day"        "vol"        "issue"      "page_begin" "page_end"   "page_count" "title"      "ref_count" 
+# "id"         "edition"    "source_id"  "type"       "year" "month" 
+# "day"        "vol"        "issue"      "page_begin" "page_end"   
+# "page_count" "title"      "ref_count" 
 ```
 
 
@@ -150,7 +160,9 @@ pubSearchB <- dplyr::tbl(dbWoS, "publication") %>%
 dim(pubSearchB) # dimensions: 65 rows x 14 columns
 # 65 publications 
 colnames(pubSearchB)
-# "id"         "edition"    "source_id"  "type"       "year"  "month" "day"        "vol"        "issue"      "page_begin" "page_end"   "page_count" "title"      "ref_count"
+# "id"         "edition"    "source_id"  "type"       "year"  "month" 
+# "day"        "vol"        "issue"      "page_begin" "page_end"   
+# "page_count" "title"      "ref_count"
 ```
 
 
@@ -167,9 +179,9 @@ pubSearchC <- dplyr::tbl(dbWoS, "publication") %>%
 
 dim(pubSearchC) # dimensions: 65 rows x 2 columns 
 # 65 publications and 2 columns
+
 colnames(pubSearchC)
 # "year"  "title"
-
 ```
 
 
@@ -189,7 +201,11 @@ pubSearchD <- dplyr::tbl(dbWoS, "publication") %>%
 dim(pubSearchD) # dimensions: 441 rows x 20 columns 
 
 colnames(pubSearchD) # listing 20 column names 
-# "id.x"       "edition"    "source_id"  "type"       "year"      "month"   "day"        "vol"        "issue"      "page_begin" "page_end"   "page_count" "title"      "ref_count"  "id.y" "full_name"  "seq_no"     "reprint"    "email"      "orcid"
+# "id.x"       "edition"    "source_id"  "type"       "year"      
+# "month"   "day"        "vol"        "issue"      "page_begin" 
+# "page_end""page_count" "title"      "ref_count"  "id.y" "full_name"  
+# "seq_no"   "reprint"    "email"      "orcid"
+
 # Note: This will result in publication titles being duplicated if there are multiple authors to list.
 ```
 
@@ -208,7 +224,11 @@ pubSearchE <- dplyr::tbl(dbWoS, "publication") %>%
 dim(pubSearchE) # dimensions: 441 rows x 24 columns
 
 colnames(pubSearchE) # listing 24 column names 
-# "id.x"         "edition"      "source_id"    "type"         "year"   "month"        "day"          "vol"          "issue"        "page_begin" "page_end"     "page_count"   "title"        "ref_count"    "id.y" "full_name"    "seq_no"       "reprint"      "email"        "orcid"  "name"  "publisher_id" "abbrev"       "series" 
+# "id.x"         "edition"      "source_id"    "type"  "year"   
+# "month"        "day"          "vol"          "issue"        
+# "page_begin" # "page_end"     "page_count"   "title"        
+# "ref_count"    "id.y" "full_name"    "seq_no"       "reprint"   
+# "email"        "orcid"  # "name"  "publisher_id" "abbrev" "series" 
 ```
 
 ## f. Search by Title words, Year and Author name   
@@ -227,7 +247,10 @@ pubSearchF <- dplyr::tbl(dbWoS, "publication") %>%
 dim(pubSearchF) # dimensions: 1 row x 24 columns
 
 colnames(pubSearchF)
-# "id.x" "edition" "source_id" "type" "year"  "month" "day" "vol"          "issue" "page_begin"  "page_end" "page_count" "title" "ref_count" "id.y"   "full_name" "seq_no" "reprint"  "email"  "orcid" "name" "publisher_id" "abbrev"  "series"    
+# "id.x" "edition" "source_id" "type" "year"  "month" "day" "vol" 
+# "issue" "page_begin"  "page_end" "page_count" "title" "ref_count"
+# "id.y" "full_name" "seq_no" "reprint"  "email"  "orcid" "name"
+# "publisher_id" "abbrev"  "series"    
 ```
 
 ## g. Search by Year and Source name
@@ -245,7 +268,9 @@ pubSearchG <- dplyr::tbl(dbWoS, "source") %>%
 dim(pubSearchG) # dimensions: 3536 rows x 20 columns
 
 colnames(pubSearchG)
-# "id.x" "id.y" "edition" "type" "year"  "month" "day" "vol" "issue"      "page_begin" "page_end" "page_count" "title" "ref_count"  "id"        "full_name"  "seq_no"     "reprint"    "email"      "orcid" 
+# "id.x" "id.y" "edition" "type" "year"  "month" "day" "vol" "issue"
+# "page_begin" "page_end" "page_count" "title" "ref_count"  "id"   
+# "full_name"  "seq_no"     "reprint"    "email"      "orcid" 
 ```
 
 ## h. Search by Title words, Year and Author institution   
@@ -285,7 +310,8 @@ pubSearchI <- dplyr::tbl(dbWoS, "descriptor") %>%
 
 dim(pubSearchI) # dimensions: 2 rows x 14 columns
 colnames(pubSearchI)
-# "wos_id" "edition" "source_id" "type" "year" "month" "day" "vol"        "issue" "page_begin" "page_end"   "page_count" "title" "ref_count" 
+# "wos_id" "edition" "source_id" "type" "year" "month" "day" "vol"   
+# "issue" "page_begin" "page_end"   "page_count" "title" "ref_count" 
 ```
 
 ## j. Search by Title words and Year, returning only publication title and abstract   
