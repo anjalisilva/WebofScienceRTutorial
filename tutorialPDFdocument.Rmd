@@ -375,7 +375,7 @@ Rscript exampleSearchERScript.R
 
 ## Maintainer
 
-Anjali Silva (a.silva@utorontoca). Last updated 18 April 2022.  
+Anjali Silva (a.silva@utorontoca). Last updated 29 June 2022.  
 
 
 ## Contributions
